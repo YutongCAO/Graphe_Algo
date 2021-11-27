@@ -2,10 +2,40 @@ import numpy as np
 import networkx as nx
 from matplotlib import pyplot as plt
 
-go = nx.DiGraph()
+
+def creeListePre(n, U: list):
+    listePre = [[] for i in range(n)]
+    for i in U:
+        listePre[i[1]].append((i[0], i[2]))
+    return listePre
+
+
+def pcch(n, U: list):
+    listeValeurChemin = [0 for i in range(n)]
+    listePre = creeListePre(n, U)
+    cpt = 0
+    for i in listePre:
+        sommetProchain = True
+        for j in i:
+            if (sommetProchain == True):
+                listeValeurChemin[cpt] = j[1] + listeValeurChemin[j[0]]
+            else:
+                if listeValeurChemin[cpt] > j[1] + listeValeurChemin[j[0]]:
+                    listeValeurChemin[cpt] = j[1] + listeValeurChemin[j[0]]
+            sommetProchain = False
+
+        cpt += 1
+    return listeValeurChemin[n - 1]
+
+
+G = nx.DiGraph()
+n = 7
 U = [(0, 1, 6), (0, 2, 2), (0, 3, 1), (1, 2, -3), (1, 4, 7), (2, 3, -2), (2, 4, -4), (3, 5, 2), (4, 5, 3), (4, 6, 3),
      (5, 6, 1)]
-for a,b,w in U:
-    go.add_edge(a, b, weights = w)
-nx.draw(go, with_labels=True,node_color='lightgrey',node_size=600,font_weight='bold')
+G.add_weighted_edges_from(U)
+nx.draw(G, pos=nx.spring_layout(G), with_labels=True)
 plt.show()
+plt.close()
+# sol = nx.shortest_path(G, 0, 6, weight='weight') Algo Dijkstra besoin nombre positif
+print(creeListePre(n, U))
+print(pcch(n,U))
