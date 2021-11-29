@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 import networkx as nx
 from matplotlib import pyplot as plt
@@ -23,7 +25,6 @@ def pcch(n, U: list):
                 if listeValeurChemin[cpt] > j[1] + listeValeurChemin[j[0]]:
                     listeValeurChemin[cpt] = j[1] + listeValeurChemin[j[0]]
             sommetProchain = False
-
         cpt += 1
     return listeValeurChemin[n - 1]
 
@@ -39,3 +40,26 @@ plt.close()
 # sol = nx.shortest_path(G, 0, 6, weight='weight') Algo Dijkstra besoin nombre positif
 print(creeListePre(n, U))
 print(pcch(n,U))
+
+n = 1000
+U = []
+f = open('bigDAG.txt','r')
+str_list = f.read().split("\n")
+for i in str_list:
+    temp = i.split(" ")
+    tup = ()
+    for j in temp:
+        tup = tup + (int(j),)
+    U.append(tup)
+
+G = nx.DiGraph()
+G.add_weighted_edges_from(U)
+tps = time.time()
+print(creeListePre(n, U))
+print(pcch(n,U))
+print('Temps avec pcch = ', round(time.time() - tps, 2))
+
+tps = time.time()
+sol = nx.bellman_ford_path_length(G, 0, 999, weight='weight')
+print(sol)
+print('Temps avec networkx = ', round(time.time() - tps, 2))
