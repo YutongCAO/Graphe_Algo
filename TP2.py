@@ -39,7 +39,28 @@ plt.show()
 plt.close()
 # sol = nx.shortest_path(G, 0, 6, weight='weight') Algo Dijkstra besoin nombre positif
 print(creeListePre(n, U))
-print(pcch(n,U))
+tps = time.time()
+for i in range(10000):
+    pcch(n,U)
+print('Temps avec pcch = ', round(time.time() - tps, 2))
+
+tps = time.time()
+for i in range(10000):
+    sol = nx.bellman_ford_path_length(G, source=0, target=6, weight='weight')
+print(sol)
+print('Temps avec Bellman_Ford = ', round(time.time() - tps, 2))
+
+tps = time.time()
+for i in range(10000):
+    sol = nx.johnson(G,weight='weight')
+print('Temps avec Johnson = ', round(time.time() - tps, 2))
+
+#tps = time.time()
+#for i in range(10000):
+#    lenght=nx.floyd_warshall(G, weight='weight')
+#print(lenght)
+#print('Temps avec Floyd_warshall = ', round(time.time() - tps, 2))
+
 
 n = 1000
 U = []
@@ -55,11 +76,20 @@ for i in str_list:
 G = nx.DiGraph()
 G.add_weighted_edges_from(U)
 tps = time.time()
-print(creeListePre(n, U))
+#print(creeListePre(n, U))
 print(pcch(n,U))
 print('Temps avec pcch = ', round(time.time() - tps, 2))
 
 tps = time.time()
 sol = nx.bellman_ford_path_length(G, 0, 999, weight='weight')
 print(sol)
-print('Temps avec networkx = ', round(time.time() - tps, 2))
+print('Temps avec Bellman_Ford = ', round(time.time() - tps, 2))
+
+#tps = time.time()
+#sol = nx.johnson(G,weight='weight')
+#print('Temps avec Johnson = ', round(time.time() - tps, 2))
+
+#tps = time.time()
+#lenght=nx.floyd_warshall(G, weight='weight')
+#print(lenght)
+#print('Temps avec Floyd_warshall = ', round(time.time() - tps, 2))
