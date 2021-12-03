@@ -1,6 +1,5 @@
 import time
 
-import numpy as np
 import networkx as nx
 from matplotlib import pyplot as plt
 
@@ -46,8 +45,9 @@ print('Temps avec pcch = ', round(time.time() - tps, 2))
 
 tps = time.time()
 for i in range(10000):
-    sol = nx.bellman_ford_path_length(G, source=0, target=6, weight='weight')
-print(sol)
+    #sol = nx.bellman_ford_path_length(G, source=0, target=6, weight='weight')
+    sol = nx.shortest_path_length(G, source=0, target=6,weight='weight',method='bellman-ford')
+#print(sol)
 print('Temps avec Bellman_Ford = ', round(time.time() - tps, 2))
 
 tps = time.time()
@@ -62,10 +62,12 @@ print('Temps avec Johnson = ', round(time.time() - tps, 2))
 #print('Temps avec Floyd_warshall = ', round(time.time() - tps, 2))
 
 
-n = 1000
 U = []
 f = open('bigDAG.txt','r')
 str_list = f.read().split("\n")
+n = int(str_list[0])
+m = int(str_list[1])
+del(str_list[0:2])
 for i in str_list:
     temp = i.split(" ")
     tup = ()

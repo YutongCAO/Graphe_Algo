@@ -2,12 +2,13 @@ import networkx as nx
 from matplotlib import pyplot as plt
 
 print("l’exploitation de gisement pétrolier est un ’minimum spanning tree’")
-
-
 G = nx.Graph()
 U = []
 f = open('arbreCouvrantTP2.txt','r')
 str_list = f.read().split("\n")
+n = int(str_list[0])
+m = int(str_list[1])
+del(str_list[0:2])
 for i in str_list:
     temp = i.split(" ")
     tup = ()
